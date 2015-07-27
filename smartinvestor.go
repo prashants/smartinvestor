@@ -62,6 +62,16 @@ func main() {
         }
     }()
 
+	// Write output csv headers
+	_, err = fmt.Fprintf(writer, "%s,%s\n", "SCRIPT", "2014-10-10")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Flush data
+	if err = writer.Flush(); err != nil {
+		log.Fatal(err)
+	}
+
 	for scanner.Scan() {
 		fmt.Printf("Processing : %s\n", scanner.Text())
 
@@ -69,7 +79,7 @@ func main() {
 		closingValue = getQuotes(scanner.Text(), "2014-10-10", "2014-10-10")
 
 		// Write the data to output file
-		_, err := fmt.Fprintf(writer, "%s,%f\n", scanner.Text(), closingValue)
+		_, err = fmt.Fprintf(writer, "%s,%f\n", scanner.Text(), closingValue)
 		if err != nil {
 			log.Fatal(err)
 		}
