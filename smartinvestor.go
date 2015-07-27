@@ -5,13 +5,10 @@ import (
 	"strconv"
 	"log"
 	"bufio"
-    //"net/url"
 	"net/http"
 	"os"
 	"io/ioutil"
-	//"encoding/json"
 	"github.com/jeffail/gabs"
-	//"github.com/wenxiang/go-nestedjson"
 	"strings"
 )
 
@@ -21,7 +18,20 @@ var param map[string]string
 
 func main() {
 
-	var closingValue float64
+	var closingValue1 float64
+	var closingValue2 float64
+	var closingValue3 float64
+	var closingValue4 float64
+	var closingValue5 float64
+	var closingValue6 float64
+	var closingValue7 float64
+	var closingValue8 float64
+	var closingValue9 float64
+	var closingValue10 float64
+	var closingValue11 float64
+	var closingValue12 float64
+	var closingValue13 float64
+	var closingValue14 float64
 
 	// Initialize Global varibles
 	// Yahoo historic data YQL formats
@@ -63,7 +73,7 @@ func main() {
     }()
 
 	// Write output csv headers
-	_, err = fmt.Fprintf(writer, "%s,%s\n", "SCRIPT", "2014-10-10")
+	_, err = fmt.Fprintf(writer, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "SCRIPT", "2000-08-25", "2002-09-27", "2003-09-29", "2007-04-27", "2008-05-30", "2009-03-06", "2010-04-23", "2011-05-06", "2011-07-22", "2011-08-19", "2012-02-03", "2014-09-18", "2014-10-15", "2014-10-31")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -76,10 +86,24 @@ func main() {
 		fmt.Printf("Processing : %s\n", scanner.Text())
 
 		// Read the closing value
-		closingValue = getQuotes(scanner.Text(), "2014-10-10", "2014-10-10")
+		closingValue1 = getQuotes(scanner.Text(), "2000-08-25", "2000-08-25")
+		closingValue2 = getQuotes(scanner.Text(), "2002-09-27", "2002-09-27")
+		closingValue3 = getQuotes(scanner.Text(), "2003-09-29", "2003-09-29")
+		closingValue4 = getQuotes(scanner.Text(), "2007-04-27", "2007-04-27")
+		closingValue5 = getQuotes(scanner.Text(), "2008-05-30", "2008-05-30")
+		closingValue6 = getQuotes(scanner.Text(), "2009-03-06", "2009-03-06")
+		closingValue7 = getQuotes(scanner.Text(), "2010-04-23", "2010-04-23")
+		closingValue8 = getQuotes(scanner.Text(), "2011-05-06", "2011-05-06")
+		closingValue9 = getQuotes(scanner.Text(), "2011-07-22", "2011-07-22")
+		closingValue10 = getQuotes(scanner.Text(), "2011-08-19", "2011-08-19")
+		closingValue11 = getQuotes(scanner.Text(), "2012-02-03", "2012-02-03")
+		closingValue12 = getQuotes(scanner.Text(), "2014-09-18", "2014-09-18")
+		closingValue13 = getQuotes(scanner.Text(), "2014-10-15", "2014-10-15")
+		closingValue14 = getQuotes(scanner.Text(), "2014-10-31", "2014-10-31")
 
 		// Write the data to output file
-		_, err = fmt.Fprintf(writer, "%s,%f\n", scanner.Text(), closingValue)
+		_, err = fmt.Fprintf(writer, "%s,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", scanner.Text(), closingValue1,closingValue2,closingValue3,closingValue4,closingValue5,
+			closingValue6,closingValue7,closingValue8,closingValue9,closingValue10,closingValue11,closingValue12,closingValue13,closingValue14)
 		if err != nil {
 			log.Fatal(err)
 		}
