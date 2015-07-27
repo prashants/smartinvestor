@@ -1,0 +1,18 @@
+How to get stock symbols for various stock exchanges
+
+NSE INDIA
+=========
+
+1. Download the latest Bhavcopy from NSE website
+http://www.nseindia.com/content/equities/cmbhav.htm
+2. Cell O2 : Apply formula =(TRIM(LEFT(A2,9)) & ".NS")
+3. Click the cell O2 and drag the fill handle down to the bottom
+
+BSE INDIA
+=========
+
+1. Go to BSE Market Watch
+	http://www.bseindia.com/markets/equity/EQReports/MarketWatch.aspx?expandable=2
+2. Download excel file
+3. Cell L2 : Apply formula =(TRIM(LEFT(B2,9)) & ".BO")
+4. Click the cell L2 and drag the fill handle down to the bottom
