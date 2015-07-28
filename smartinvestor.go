@@ -42,20 +42,9 @@ var param map[string]string
 
 func main() {
 
-	var closingValue1 float64
-	var closingValue2 float64
-	var closingValue3 float64
-	var closingValue4 float64
-	var closingValue5 float64
-	var closingValue6 float64
-	var closingValue7 float64
-	var closingValue8 float64
-	var closingValue9 float64
-	var closingValue10 float64
-	var closingValue11 float64
-	var closingValue12 float64
-	var closingValue13 float64
-	var closingValue14 float64
+	var closingValue float64
+
+	welcomeMsg()
 
 	// Initialize Global varibles
 	// Yahoo historic data YQL formats
@@ -70,6 +59,28 @@ func main() {
 	param["diagnostics"] = "true"
 	param["env"] = "store://datatables.org/alltableswithkeys"
 	param["callback"] = ""
+
+	// Read dates
+	var dates []string
+	dateFile, err := os.Open("dates.txt")
+	if err != nil {
+        log.Fatal(err)
+	}
+	defer dateFile.Close()
+	dateScanner := bufio.NewScanner(dateFile)
+	// Setup slice containing all the dates from the file
+	for dateScanner.Scan() {
+		if len(dateScanner.Text()) < 1 {
+			continue
+		}
+		dates = append(dates, dateScanner.Text())
+	}
+	if err := dateScanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+	if (len(dates) < 1) {
+		log.Fatal("Please enter atleast one date in the format YYYY-MM-DD in the dates.txt file")
+	}
 
 	// Read stock symbols from a file
 	symbolFile, err := os.Open("symbols.txt")
@@ -97,7 +108,17 @@ func main() {
     }()
 
 	// Write output csv headers
-	_, err = fmt.Fprintf(writer, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n", "SCRIPT", "2000-08-25", "2002-09-27", "2003-09-29", "2007-04-27", "2008-05-30", "2009-03-06", "2010-04-23", "2011-05-06", "2011-07-22", "2011-08-19", "2012-02-03", "2014-09-18", "2014-10-15", "2014-10-31")
+	_, err = fmt.Fprintf(writer, "%s", "SCRIPT,")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, eachdate := range dates {
+		_, err = fmt.Fprintf(writer, "%s,", eachdate)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	_, err = fmt.Fprintf(writer, "\n")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -109,33 +130,33 @@ func main() {
 	for scanner.Scan() {
 		fmt.Printf("Processing : %s\n", scanner.Text())
 
-		// Read the closing value
-		closingValue1 = getQuotes(scanner.Text(), "2000-08-25", "2000-08-25")
-		closingValue2 = getQuotes(scanner.Text(), "2002-09-27", "2002-09-27")
-		closingValue3 = getQuotes(scanner.Text(), "2003-09-29", "2003-09-29")
-		closingValue4 = getQuotes(scanner.Text(), "2007-04-27", "2007-04-27")
-		closingValue5 = getQuotes(scanner.Text(), "2008-05-30", "2008-05-30")
-		closingValue6 = getQuotes(scanner.Text(), "2009-03-06", "2009-03-06")
-		closingValue7 = getQuotes(scanner.Text(), "2010-04-23", "2010-04-23")
-		closingValue8 = getQuotes(scanner.Text(), "2011-05-06", "2011-05-06")
-		closingValue9 = getQuotes(scanner.Text(), "2011-07-22", "2011-07-22")
-		closingValue10 = getQuotes(scanner.Text(), "2011-08-19", "2011-08-19")
-		closingValue11 = getQuotes(scanner.Text(), "2012-02-03", "2012-02-03")
-		closingValue12 = getQuotes(scanner.Text(), "2014-09-18", "2014-09-18")
-		closingValue13 = getQuotes(scanner.Text(), "2014-10-15", "2014-10-15")
-		closingValue14 = getQuotes(scanner.Text(), "2014-10-31", "2014-10-31")
-
-		// Write the data to output file
-		_, err = fmt.Fprintf(writer, "%s,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", scanner.Text(), closingValue1,closingValue2,closingValue3,closingValue4,closingValue5,
-			closingValue6,closingValue7,closingValue8,closingValue9,closingValue10,closingValue11,closingValue12,closingValue13,closingValue14)
+		// Write script name
+		_, err = fmt.Fprintf(writer, "%s,", scanner.Text())
 		if err != nil {
 			log.Fatal(err)
 		}
+		
+		// Calculate and write closing value for each date to output file
+		for _, eachdate := range dates {
+			// Read the closing value
+			closingValue = getQuotes(scanner.Text(), eachdate, eachdate)
+			// Write closing value
+			_, err = fmt.Fprintf(writer, "%f,", closingValue)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
 
+		// Write new line
+		_, err = fmt.Fprintf(writer, "\n")
+		if err != nil {
+			log.Fatal(err)
+		}
+		
 		// Flush data
-        if err = writer.Flush(); err != nil {
-            log.Fatal(err)
-        }
+		if err = writer.Flush(); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -212,4 +233,18 @@ func getQuotes(symbol string, fromdate string, todate string) float64 {
 	}
 
 	return closingValue
+}
+
+func welcomeMsg() {
+	fmt.Println("")
+	fmt.Println("*****************************************************************************")
+	fmt.Println("")
+	fmt.Println("                        WELCOME TO SMART INVESTOR !                        ")
+	fmt.Println("")
+	fmt.Println("- Create a symbols.txt file containing all the script symbols one per each line from Yahoo finance that you want to track.")
+	fmt.Println("- Create a dates.txt file containing all the dates for which you want the closing price. Enter one date per line in the format YYYY-MM-DD.")
+	fmt.Println("- Press Ctrl+C if you which to halt the program.")
+	fmt.Println("*****************************************************************************")
+	fmt.Println("")
+	fmt.Println("")
 }
