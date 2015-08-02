@@ -1,0 +1,3 @@
+$appcfg.py -A nifty-stats update nifty-stats
+
+URL : http://nifty-stats.appspot.com 

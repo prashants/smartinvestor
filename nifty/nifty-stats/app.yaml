@@ -1,0 +1,10 @@
+application: nifty-stats
+version: 1
+runtime: php55
+api_version: 1
+
+handlers:
+- url: /highstock
+  static_dir: highstock
+- url: /.*
+  script: charts.html

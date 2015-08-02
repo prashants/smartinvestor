@@ -1,3 +1,27 @@
+// The MIT License (MIT)
+//
+// SmartInvestor - Smart Investor Tools
+//
+// Copyright (c) 2015 Prashant Shah <pshah.mumbai@gmail.com>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 package main
 
 import (
@@ -39,6 +63,7 @@ func main() {
 		</style>
 		<script type="text/javascript">
 			$(function () {
+				Highcharts.setOptions({colors: ['#058DC7']});
 				// Create the chart
 				$('#closing-container').highcharts('StockChart', {
 					xAxis: {
@@ -60,6 +85,8 @@ func main() {
 						},
 					]
 				});
+
+				Highcharts.setOptions({colors: ['#50B432']});
 				// Create the chart
 				$('#volume-container').highcharts('StockChart', {
 					xAxis: {
@@ -81,6 +108,8 @@ func main() {
 						},
 					]
 				});
+
+				Highcharts.setOptions({colors: ['#ED561B']});
 				// Create the chart
 				$('#turnover-container').highcharts('StockChart', {
 					xAxis: {
@@ -102,7 +131,9 @@ func main() {
 						},
 					]
 				});
+
 				// Create the chart
+				Highcharts.setOptions({colors: ['#000000']});
 				$('#pe-container').highcharts('StockChart', {
 					xAxis: {
 						type: 'datetime',
@@ -123,6 +154,8 @@ func main() {
 						},
 					]
 				});
+
+				Highcharts.setOptions({colors: ['#660000']});
 				// Create the chart
 				$('#pb-container').highcharts('StockChart', {
 					xAxis: {
@@ -144,6 +177,8 @@ func main() {
 						},
 					]
 				});
+
+				Highcharts.setOptions({colors: ['#B8B800']});
 				// Create the chart
 				$('#yield-container').highcharts('StockChart', {
 					xAxis: {
@@ -165,6 +200,8 @@ func main() {
 						},
 					]
 				});
+
+				Highcharts.setOptions({colors: ['#5C0099']});
 				// Create the chart
 				$('#returns-container').highcharts('StockChart', {
 					xAxis: {
@@ -192,6 +229,11 @@ func main() {
 	<body>
 		<script src="./highstock/js/highstock.js"></script>
 		<script src="./highstock/js/modules/exporting.js"></script>
+		<p>Below are the charts from 1999 to 2015 for NIFTY (1) Closing Price, (2) Volume, (3) Turnover, (4) P/E, (5) P/B, (6) Dividend Yield & (7) Total Returns</p>
+		<p><b><i>IMPORTANT NOTE : These charts are for educational purposes only, the author is not responsible in anyway with what you do with it.</i></b></p>
+		<p>Source code for chart generation : <a href="https://github.com/prashants/smartinvestor">https://github.com/prashants/smartinvestor</a></p>
+		<br />
+		<br />
 		<div id="closing-container" style="height: 800px; min-width: 310px"></div>
 		<div id="volume-container" style="height: 800px; min-width: 310px"></div>
 		<div id="turnover-container" style="height: 800px; min-width: 310px"></div>
